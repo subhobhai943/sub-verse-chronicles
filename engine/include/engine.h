@@ -1,26 +1,49 @@
 #pragma once
 
+#include <android/asset_manager.h>
 #include <cstdint>
 
 namespace subverse {
 
 class RendererGLES3;
+class AssetManager;
+class SpriteRenderer;
+class DialogueSystem;
+class StoryManager;
+class InputManager;
+class Texture;
 
 class Engine {
 public:
     Engine();
     ~Engine();
 
-    void init();
-
+    void init(AAssetManager* assetMgr);
     void onSurfaceCreated();
     void onSurfaceChanged(int width, int height);
     void onDrawFrame();
+    void onTouchDown(float x, float y);
+    void onTouchUp(float x, float y);
 
 private:
+    void loadGameAssets();
+    void updateGame();
+    void renderGame();
+    
     RendererGLES3* renderer_;
+    AssetManager* assetMgr_;
+    SpriteRenderer* spriteRenderer_;
+    DialogueSystem* dialogueSys_;
+    StoryManager* storyMgr_;
+    InputManager* inputMgr_;
+    
+    Texture* bgTexture_;
+    Texture* charTexture_;
+    Texture* dialogueBoxTex_;
+    
     int width_ = 0;
     int height_ = 0;
+    bool initialized_ = false;
 };
 
 Engine& GetEngine();

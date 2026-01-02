@@ -1,5 +1,7 @@
 package `in`.sub.unit.subverse
 
+import android.content.res.AssetManager
+
 class NativeEngine {
     companion object {
         init {
@@ -7,11 +9,11 @@ class NativeEngine {
         }
     }
 
-    external fun init()
+    external fun init(assetManager: AssetManager)
     external fun getVersion(): String
-
-    // Render lifecycle hooks (called by GLSurfaceView.Renderer)
     external fun onSurfaceCreated()
     external fun onSurfaceChanged(width: Int, height: Int)
     external fun onDrawFrame()
+    external fun onTouchDown(x: Float, y: Float)
+    external fun onTouchUp(x: Float, y: Float)
 }

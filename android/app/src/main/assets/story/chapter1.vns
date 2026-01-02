@@ -1,0 +1,138 @@
+# SUB-verse Chronicles - Chapter 1: Another World Awaits
+# Isekai Visual Novel Demo Script
+
+@node start
+@scene
+@bg backgrounds/bedroom.png
+@char protagonist_neutral
+Protagonist: Another normal day in my boring life...
+@next morning
+
+@node morning
+@char protagonist_tired
+Protagonist: I stayed up too late playing RPGs again.
+@next flash
+
+@node flash
+@bg backgrounds/white_flash.png
+Narrator: Suddenly, a blinding light engulfs everything!
+@next awakening
+
+@node awakening
+@bg backgrounds/fantasy_field.png
+@char protagonist_shocked
+Protagonist: W-What?! Where am I?!
+@next look_around
+
+@node look_around
+@char protagonist_surprised
+Protagonist: This place... it's like something out of a fantasy game!
+@next voice
+
+@node voice
+Mysterious Voice: Welcome, Hero from another world.
+@next confusion
+
+@node confusion
+@char protagonist_confused
+Protagonist: Hero? Another world? Is this really happening?
+@next status
+
+@node status
+@char protagonist_amazed
+Protagonist: Wait... I can see a status screen floating in front of me!
+@next stats
+
+@node stats
+System: NAME: [Your Name] | LEVEL: 1 | CLASS: Otherworlder | HP: 100/100 | MP: 50/50
+@next first_choice
+
+@node first_choice
+@choice
+Protagonist: What should I do first in this world?
+> Explore the surroundings -> explore
+> Try to use magic -> try_magic
+> Look for people -> find_people
+
+@node explore
+@bg backgrounds/forest_path.png
+@char protagonist_determined
+Protagonist: Let's see what this world has to offer.
+@next encounter
+
+@node try_magic
+@char protagonist_focused
+Protagonist: If I concentrate... maybe I can cast a spell!
+@next magic_success
+
+@node find_people
+@bg backgrounds/village.png
+@char protagonist_hopeful
+Protagonist: There must be a town or village nearby.
+@next meet_girl
+
+@node magic_success
+System: Congratulations! You learned [Fireball] - Basic fire magic!
+@next encounter
+
+@node meet_girl
+@char companion_cheerful
+Mysterious Girl: Oh! You must be the summoned hero everyone's talking about!
+@next companion_intro
+
+@node companion_intro
+Elara: My name is Elara. I'm a mage from the Royal Academy.
+@next join_party
+
+@node join_party
+Elara: Would you like me to show you around Aethermoor?
+@next party_formed
+
+@node party_formed
+System: Elara has joined your party!
+@next encounter
+
+@node encounter
+@bg backgrounds/danger_zone.png
+Narrator: As you venture forward, strange creatures appear!
+@next battle_prep
+
+@node battle_prep
+@char protagonist_ready
+Protagonist: Time to test my new abilities!
+@next victory
+
+@node victory
+System: Victory! Gained 50 EXP | Level UP! Now Level 2!
+@next after_battle
+
+@node after_battle
+@char protagonist_excited
+Protagonist: This is amazing! I'm getting stronger already!
+@next quest
+
+@node quest
+Mysterious Voice: Your journey has just begun, Hero. Many challenges await.
+@next determination
+
+@node determination
+@char protagonist_determined
+Protagonist: I don't know why I was brought here, but I'll find out!
+@next chapter_end
+
+@node chapter_end
+@bg backgrounds/sunset.png
+Narrator: And so begins the legend of the hero from another world...
+@next credits
+
+@node credits
+@scene
+System: ===== Chapter 1 Complete! =====
+@next thanks
+
+@node thanks
+Narrator: Thank you for playing SUB-verse Chronicles!
+@next final
+
+@node final
+Narrator: More chapters coming soon. Your adventure in Aethermoor continues...

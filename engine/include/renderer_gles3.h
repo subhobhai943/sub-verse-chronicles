@@ -9,15 +9,7 @@ public:
 
     void onSurfaceCreated();
     void onSurfaceChanged(int width, int height);
-    void onDrawFrame(float tSeconds);
-
-private:
-    void createCheckerboardTexture();
-
-    unsigned int program_ = 0;
-    unsigned int vao_ = 0;
-    unsigned int vbo_ = 0;
-    unsigned int texture_id_ = 0;
+    void renderBackground();
 };
 
 } // namespace subverse
