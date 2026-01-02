@@ -1,0 +1,41 @@
+# Android
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+bin/
+gen/
+out/
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+.DS_Store
+captures/
+.externalNativeBuild/
+.cxx/
+
+# NDK
+obj/
+libs/
+*.so
+*.a
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+install_manifest.txt
+
+# Visual Studio Code
+.vscode/
+
+# Logs
+*.log
+
+# Assets (temporary, uncomment to ignore large assets during development)
+# assets/*.png
+# assets/*.jpg
+# assets/*.ogg
