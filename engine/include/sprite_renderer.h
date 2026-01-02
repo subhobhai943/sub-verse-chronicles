@@ -1,6 +1,6 @@
 #pragma once
 #include "texture.h"
-#include <memory>
+#include <GLES3/gl3.h>
 
 namespace subverse {
 
@@ -21,9 +21,12 @@ public:
     void end();
     
 private:
-    unsigned int program_ = 0;
-    unsigned int vao_ = 0;
-    unsigned int vbo_ = 0;
+    GLuint compileShader(GLenum type, const char* src);
+    GLuint createProgram(GLuint vs, GLuint fs);
+
+    GLuint shaderProgram_ = 0;
+    GLuint vao_ = 0;
+    GLuint vbo_ = 0;
 };
 
 } // namespace subverse

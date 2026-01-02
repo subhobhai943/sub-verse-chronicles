@@ -99,7 +99,6 @@ void SpriteRenderer::drawSprite(const Sprite& sprite, float screenW, float scree
 
     // Projection (ortho)
     // 2D projection matrix 0..screenW, screenH..0 (top-left origin usually, but let's do bottom-left 0,0 for standard GL)
-    // Actually standard 2D games often put 0,0 top-left. Let's stick to standard GL 0,0 bottom-left for now.
     
     // Simple ortho matrix
     float left = 0.0f;
@@ -127,8 +126,8 @@ void SpriteRenderer::drawSprite(const Sprite& sprite, float screenW, float scree
     // Model matrix
     // T * S
     float model[16] = {
-        sprite.width, 0.0f, 0.0f, 0.0f,
-        0.0f, sprite.height, 0.0f, 0.0f,
+        sprite.w, 0.0f, 0.0f, 0.0f,
+        0.0f, sprite.h, 0.0f, 0.0f,
         0.0f, 0.0f, 1.0f, 0.0f,
         sprite.x, sprite.y, 0.0f, 1.0f
     };
@@ -144,7 +143,7 @@ void SpriteRenderer::drawSprite(const Sprite& sprite, float screenW, float scree
     glUniform1i(texLoc, 0);
 
     glActiveTexture(GL_TEXTURE0);
-    sprite.texture->bind(); // Fixed: Removed argument '0'
+    sprite.texture->bind();
 
     glBindVertexArray(vao_);
     glDrawArrays(GL_TRIANGLES, 0, 6);
