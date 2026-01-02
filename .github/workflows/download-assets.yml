@@ -1,0 +1,126 @@
+name: Download Visual Novel Assets
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/download-assets.yml'
+
+jobs:
+  download-assets:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create assets directories
+        run: |
+          mkdir -p android/app/src/main/assets/images/backgrounds
+          mkdir -p android/app/src/main/assets/images/characters
+          mkdir -p engine/include/stb
+
+      - name: Download stb_image.h for PNG loading
+        run: |
+          curl -L -o engine/include/stb/stb_image.h \
+            https://raw.githubusercontent.com/nothings/stb/master/stb_image.h
+          echo "Downloaded stb_image.h for PNG decoding"
+
+      - name: Download background images
+        run: |
+          # Bedroom (from OpenGameArt - CC0)
+          curl -L -o android/app/src/main/assets/images/backgrounds/bedroom.png \
+            "https://opengameart.org/sites/default/files/Int1.png"
+          
+          # Fantasy forest (CC0)
+          curl -L -o android/app/src/main/assets/images/backgrounds/forest.png \
+            "https://opengameart.org/sites/default/files/BG1_0.png"
+          
+          # Castle/dungeon (CC0)
+          curl -L -o android/app/src/main/assets/images/backgrounds/castle.png \
+            "https://opengameart.org/sites/default/files/dungeon1.png"
+          
+          # Sky background (CC0)
+          curl -L -o android/app/src/main/assets/images/backgrounds/sky.png \
+            "https://opengameart.org/sites/default/files/background1-720.png"
+          
+          # Battle background (CC0)
+          curl -L -o android/app/src/main/assets/images/backgrounds/battle.png \
+            "https://opengameart.org/sites/default/files/GrassyMountains.png"
+          
+          echo "Downloaded 5 background images"
+
+      - name: Download character sprites
+        run: |
+          # Protagonist (anime style - CC0)
+          curl -L -o android/app/src/main/assets/images/characters/protagonist.png \
+            "https://opengameart.org/sites/default/files/Man1v3.png"
+          
+          # Mysterious girl character (CC0)
+          curl -L -o android/app/src/main/assets/images/characters/girl.png \
+            "https://opengameart.org/sites/default/files/Girl1.png"
+          
+          # Wizard/mage character (CC0)
+          curl -L -o android/app/src/main/assets/images/characters/wizard.png \
+            "https://opengameart.org/sites/default/files/Sara_3.png"
+          
+          # Enemy/monster sprite (CC0)
+          curl -L -o android/app/src/main/assets/images/characters/monster.png \
+            "https://opengameart.org/sites/default/files/creature_v3.png"
+          
+          echo "Downloaded 4 character sprites"
+
+      - name: Create asset credits file
+        run: |
+          cat > android/app/src/main/assets/CREDITS.txt << 'EOF'
+          SUB-verse Chronicles - Asset Credits
+          =====================================
+
+          All assets used in this game are licensed under CC0 (Public Domain) or CC-BY.
+          Assets sourced from OpenGameArt.org.
+
+          BACKGROUNDS:
+          - Bedroom: Int1.png from OpenGameArt.org (CC0)
+          - Forest: BG1_0.png from OpenGameArt.org (CC0)  
+          - Castle: dungeon1.png from OpenGameArt.org (CC0)
+          - Sky: background1-720.png from OpenGameArt.org (CC0)
+          - Battle: GrassyMountains.png from OpenGameArt.org (CC0)
+
+          CHARACTERS:
+          - Protagonist: Man1v3.png from OpenGameArt.org (CC0)
+          - Girl: Girl1.png from OpenGameArt.org (CC0)
+          - Wizard: Sara_3.png from OpenGameArt.org (CC0)
+          - Monster: creature_v3.png from OpenGameArt.org (CC0)
+
+          CODE LIBRARIES:
+          - stb_image.h by Sean Barrett (Public Domain)
+            https://github.com/nothings/stb
+
+          Special thanks to the OpenGameArt.org community!
+          EOF
+
+      - name: Commit and push assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add android/app/src/main/assets/
+          git add engine/include/stb/
+          
+          if git diff --staged --quiet; then
+            echo "No new assets to commit"
+          else
+            git commit -m "Download visual novel assets from OpenGameArt.org
+
+            - Added 5 CC0 background images (bedroom, forest, castle, sky, battle)
+            - Added 4 CC0 character sprites (protagonist, girl, wizard, monster)
+            - Added stb_image.h for PNG loading in C++ engine
+            - Created CREDITS.txt with proper attribution"
+            git push
+            echo "Assets committed successfully!"
+          fi

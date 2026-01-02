@@ -1,107 +1,146 @@
-# SUB-verse Chronicles
+# 🎮 SUB-verse Chronicles
 
-**SUB Project Unit — Android Isekai Visual Novel Game with Custom C++ Engine**
+**A production-ready visual novel game engine built with C++ and OpenGL ES 3.0 for Android.**
 
-## Overview
-SUB-verse Chronicles is an isekai-themed visual novel game for Android, built from the ground up with a custom C++ game engine. The project combines narrative storytelling with RPG mechanics in the popular isekai genre.
+[![Download Assets](https://github.com/subhobhai943/sub-verse-chronicles/actions/workflows/download-assets.yml/badge.svg)](https://github.com/subhobhai943/sub-verse-chronicles/actions/workflows/download-assets.yml)
 
-## Project Structure
-```
-sub-verse-chronicles/
-├── engine/           # C++ core engine (NDK)
-│   ├── src/         # Engine source code
-│   ├── include/     # Engine headers
-│   └── CMakeLists.txt
-├── android/         # Android wrapper (Kotlin/Java)
-│   ├── app/
-│   └── build.gradle
-├── game/            # Game content
-│   ├── scripts/     # Story scripts
-│   ├── data/        # Game data (characters, stats)
-│   └── scenes/      # Scene definitions
-├── assets/          # Game assets
-│   ├── sprites/     # Character sprites
-│   ├── backgrounds/ # Background images
-│   ├── audio/       # Music and sound effects
-│   └── ui/          # UI elements
-└── docs/            # Documentation
-```
+## ✨ Features
 
-## Technology Stack
-- **Core Engine**: C++ (C++17)
-- **Graphics API**: OpenGL ES 3.0
-- **Build System**: CMake + Gradle
-- **Android**: NDK r25+, Kotlin for launcher
-- **Target API**: Android 8.0+ (API 26+)
+- **Custom C++ Game Engine**: OpenGL ES 3.0 renderer with sprite batching
+- **Visual Novel System**: Branching dialogue, choices, and story scripting (`.vns` format)
+- **Android Dialogue Overlay**: Native TextViews + buttons for text display
+- **PNG Asset Loading**: `stb_image.h` integration for real artwork
+- **Production UI**: Adaptive app icon, fullscreen immersive mode, touch controls
+- **Automated Asset Pipeline**: GitHub Actions downloads CC0 art from OpenGameArt.org
 
-## Features (Planned)
-- Custom visual novel engine optimized for Android
-- Branching narrative system with decision tracking
-- Isekai-specific RPG mechanics (stats, skills, inventory)
-- Character sprite system with expressions
-- Save/load functionality
-- Touch-optimized UI
-- Adaptive screen resolution support
+## 🎨 Art Assets
 
-## Getting Started
+All visual assets are **free and open source** (CC0/Public Domain):
+- 5 background scenes (bedroom, forest, castle, sky, battle)
+- 4 character sprites (protagonist, girl, wizard, monster)
+- Assets auto-downloaded via GitHub Actions workflow
+- Full credits in `android/app/src/main/assets/CREDITS.txt`
 
-### Prerequisites
-- Android Studio Arctic Fox or newer
-- Android NDK r25+
-- CMake 3.18+
-- JDK 11+
+## 🚀 Quick Start
 
-### Building
+### Download Assets
+
+1. Go to [**Actions** tab](https://github.com/subhobhai943/sub-verse-chronicles/actions)
+2. Click **Download Visual Novel Assets** workflow
+3. Click **Run workflow** → **Run workflow**
+4. Wait 1-2 minutes for assets to be downloaded and committed
+
+### Build APK
+
+After assets are downloaded:
+
+1. Wait for **Android CI** build to complete automatically
+2. Download `sub-verse-debug` artifact from the build
+3. Extract and install `app-debug.apk` on your Android device
+
+### Manual Build
+
 ```bash
-# Clone the repository
+# Clone repository
 git clone https://github.com/subhobhai943/sub-verse-chronicles.git
 cd sub-verse-chronicles
 
-# Open in Android Studio and sync project
-# Build will automatically compile C++ engine via CMake
+# Run asset download workflow (or download manually)
+gh workflow run download-assets.yml
+
+# Build with Gradle
+cd android
+./gradlew assembleDebug
+
+# Install APK
+adb install app/build/outputs/apk/debug/app-debug.apk
 ```
 
-## Development Roadmap
+## 📖 Story Scripting
 
-### Phase 1: Engine Foundation (Current)
-- [x] Repository setup
-- [ ] C++ engine core architecture
-- [ ] Rendering pipeline (OpenGL ES)
-- [ ] Asset loading system
-- [ ] Input handling (touch)
+Edit `android/app/src/main/assets/story/chapter1.vns`:
 
-### Phase 2: Visual Novel Systems
-- [ ] Dialogue system
-- [ ] Character sprite manager
-- [ ] Background renderer
-- [ ] Text rendering engine
-- [ ] Decision/choice system
+```
+@node start
+@scene bedroom
+@bg bedroom
+@char protagonist
+Narrator: You wake up in your bedroom...
+@next choice1
 
-### Phase 3: Isekai Mechanics
-- [ ] Stats and character system
-- [ ] Inventory management
-- [ ] Quest tracking
-- [ ] Skill/ability system
+@node choice1
+@choice
+Protagonist: What should I do?
+> Explore the house -> explore
+> Go back to sleep -> sleep
 
-### Phase 4: Android Integration
-- [ ] JNI bridge
-- [ ] Save/load with Android storage
-- [ ] Audio system (OpenSL ES)
-- [ ] Performance optimization
+@node explore
+Narrator: You venture into the unknown...
+@next end
 
-### Phase 5: Content & Polish
-- [ ] Story scripting
-- [ ] Art asset integration
-- [ ] UI/UX refinement
-- [ ] Testing & debugging
+@node sleep
+Narrator: You drift back to sleep. Game Over.
 
-## Contributing
-This is a SUB project unit development. Contributions welcome!
+@node end
+Narrator: To be continued...
+```
 
-## License
-TBD
+## 🏗️ Engine Architecture
 
-## Contact
-Subhobhai - [@subhobhai943](https://github.com/subhobhai943)
+```
+engine/
+├── include/          # C++ headers
+│   ├── engine.h      # Main engine singleton
+│   ├── renderer_gles3.h
+│   ├── sprite_renderer.h
+│   ├── dialogue_system.h
+│   ├── story_manager.h
+│   ├── image_loader.h
+│   └── stb/          # stb_image.h
+├── src/              # C++ implementation
+└── CMakeLists.txt
 
-Project Link: [https://github.com/subhobhai943/sub-verse-chronicles](https://github.com/subhobhai943/sub-verse-chronicles)
+android/
+├── app/src/main/
+│   ├── java/.../     # Kotlin UI layer
+│   │   ├── MainActivity.kt
+│   │   ├── DialogueOverlay.kt
+│   │   └── NativeEngine.kt
+│   └── assets/       # Game data
+│       ├── story/chapter1.vns
+│       └── images/
+│           ├── backgrounds/
+│           └── characters/
+└── build.gradle
+```
+
+## 🎯 Roadmap
+
+- [x] Core OpenGL ES 3.0 engine
+- [x] Visual novel dialogue system
+- [x] Android UI overlay
+- [x] PNG image loading (stb_image)
+- [x] GitHub Actions asset pipeline
+- [ ] Sound effects and music
+- [ ] Save/load system
+- [ ] Character animations
+- [ ] Particle effects
+- [ ] Localization support
+
+## 📜 License
+
+**Code**: MIT License (see LICENSE file)
+
+**Assets**: CC0 / Public Domain (see `android/app/src/main/assets/CREDITS.txt`)
+
+## 🙏 Credits
+
+- **Engine**: Built by [subhobhai943](https://github.com/subhobhai943)
+- **Art**: OpenGameArt.org community (CC0 artists)
+- **Libraries**: 
+  - [stb_image.h](https://github.com/nothings/stb) by Sean Barrett
+  - Android NDK & OpenGL ES 3.0
+
+---
+
+**Made with ❤️ for the visual novel community**
