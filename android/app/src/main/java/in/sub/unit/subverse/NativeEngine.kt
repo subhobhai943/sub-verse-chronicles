@@ -7,13 +7,11 @@ class NativeEngine {
         }
     }
 
-    /**
-     * Initializes the C++ engine core.
-     */
     external fun init()
-
-    /**
-     * Returns the engine version string from C++.
-     */
     external fun getVersion(): String
+
+    // Render lifecycle hooks (called by GLSurfaceView.Renderer)
+    external fun onSurfaceCreated()
+    external fun onSurfaceChanged(width: Int, height: Int)
+    external fun onDrawFrame()
 }

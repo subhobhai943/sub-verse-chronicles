@@ -2,7 +2,13 @@ cmake_minimum_required(VERSION 3.18.0)
 project("subverse-engine")
 
 add_library(subverse-engine SHARED
-    src/main.cpp
+    src/jni_entry.cpp
+    src/engine.cpp
+    src/renderer_gles3.cpp
+)
+
+target_include_directories(subverse-engine PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 find_library(log-lib log)
