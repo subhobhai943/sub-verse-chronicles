@@ -1,0 +1,23 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Background glow ring -->
+    <path
+        android:fillColor="#B04AF7"
+        android:fillAlpha="0.20"
+        android:pathData="M54,8C28.6,8 8,28.6 8,54s20.6,46 46,46 46,-20.6 46,-46S79.4,8 54,8z" />
+
+    <!-- Stylized S (simple geometric) -->
+    <path
+        android:fillColor="#B04AF7"
+        android:pathData="M72,30H42c-6.6,0 -12,5.4 -12,12 0,6.6 5.4,12 12,12h18c3.3,0 6,2.7 6,6 0,3.3 -2.7,6 -6,6H30v10h30c6.6,0 12,-5.4 12,-12 0,-6.6 -5.4,-12 -12,-12H42c-3.3,0 -6,-2.7 -6,-6 0,-3.3 2.7,-6 6,-6h30V30z" />
+
+    <!-- Small SUB mark -->
+    <path
+        android:fillColor="#F2F2F2"
+        android:fillAlpha="0.90"
+        android:pathData="M32,83h44v6H32z" />
+</vector>

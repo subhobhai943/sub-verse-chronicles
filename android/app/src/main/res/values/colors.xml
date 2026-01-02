@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#000000</color>
+    <color name="subverse_bg">#0B1020</color>
+    <color name="subverse_panel">#CC0A0A0A</color>
+    <color name="subverse_accent">#B04AF7</color>
+    <color name="subverse_text">#F2F2F2</color>
 </resources>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Subverse" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@color/black</item>
+    <style name="Theme.Subverse" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/subverse_bg</item>
+        <item name="android:statusBarColor">@color/subverse_bg</item>
+        <item name="android:navigationBarColor">@color/subverse_bg</item>
     </style>
 </resources>

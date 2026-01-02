@@ -10,20 +10,18 @@ void StoryManager::loadScript(const std::string& scriptContent) {
 }
 
 void StoryManager::parseScript(const std::string& content) {
-    // Simple parser for .vns format
     std::istringstream iss(content);
     std::string line;
     StoryNode* current = nullptr;
-    
+
     while (std::getline(iss, line)) {
         if (line.empty() || line[0] == '#') continue;
-        
+
         if (line[0] == '@') {
-            // Command
             size_t space = line.find(' ');
             std::string cmd = line.substr(1, space - 1);
             std::string arg = (space != std::string::npos) ? line.substr(space + 1) : "";
-            
+
             if (cmd == "node") {
                 current = &nodes_[arg];
                 current->id = arg;
@@ -34,38 +32,52 @@ void StoryManager::parseScript(const std::string& content) {
                 else if (cmd == "choice") current->type = "choice";
                 else if (cmd == "next") current->next = arg;
             }
-        } else if (line[0] == '>') {
-            // Choice option
+            continue;
+        }
+
+        if (line[0] == '>') {
             if (current) {
                 size_t arrow = line.find("->");
                 if (arrow != std::string::npos) {
                     std::string choiceText = line.substr(1, arrow - 1);
                     std::string target = line.substr(arrow + 2);
-                    // trim
                     while (!choiceText.empty() && choiceText.back() == ' ') choiceText.pop_back();
                     while (!target.empty() && target.front() == ' ') target.erase(0, 1);
                     current->choices.push_back(choiceText);
                     current->targets.push_back(target);
                 }
             }
-        } else {
-            // Dialogue line
-            if (current) {
-                size_t colon = line.find(':');
-                if (colon != std::string::npos) {
-                    current->type = "dialogue";
-                    current->speaker = line.substr(0, colon);
-                    current->text = line.substr(colon + 2); // skip ": "
-                }
+            continue;
+        }
+
+        // Dialogue line
+        if (current) {
+            size_t colon = line.find(':');
+            if (colon != std::string::npos) {
+                // Preserve "choice" node type; only set type to dialogue if node isn't a choice.
+                if (current->type != "choice") current->type = "dialogue";
+                current->speaker = line.substr(0, colon);
+                if (colon + 2 < line.size()) current->text = line.substr(colon + 2);
+                else current->text = "";
             }
         }
     }
 }
 
 void StoryManager::start() {
-    if (!nodes_.empty()) {
-        gotoNode(nodes_.begin()->first);
+    if (nodes_.empty()) {
+        finished_ = true;
+        return;
     }
+
+    // Prefer explicit start node.
+    if (nodes_.find("start") != nodes_.end()) {
+        gotoNode("start");
+        return;
+    }
+
+    // Otherwise first inserted/sorted.
+    gotoNode(nodes_.begin()->first);
 }
 
 void StoryManager::gotoNode(const std::string& nodeId) {
@@ -84,7 +96,7 @@ void StoryManager::advance() {
         finished_ = true;
         return;
     }
-    
+
     if (!node->next.empty()) {
         gotoNode(node->next);
     } else {
@@ -95,7 +107,6 @@ void StoryManager::advance() {
 void StoryManager::selectChoice(int index) {
     auto* node = getCurrentNode();
     if (!node || index < 0 || index >= (int)node->targets.size()) return;
-    
     gotoNode(node->targets[index]);
 }
 

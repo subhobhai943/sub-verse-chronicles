@@ -5,7 +5,8 @@ import android.opengl.GLSurfaceView
 import android.view.MotionEvent
 
 class GameSurfaceView(context: Context) : GLSurfaceView(context) {
-    private val engine = NativeEngine()
+
+    val engine = NativeEngine()
 
     init {
         setEGLContextClientVersion(3)
@@ -14,13 +15,10 @@ class GameSurfaceView(context: Context) : GLSurfaceView(context) {
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        // Keep hooks; UI overlay handles VN interactions for now.
         when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                engine.onTouchDown(event.x, event.y)
-            }
-            MotionEvent.ACTION_UP -> {
-                engine.onTouchUp(event.x, event.y)
-            }
+            MotionEvent.ACTION_DOWN -> engine.onTouchDown(event.x, event.y)
+            MotionEvent.ACTION_UP -> engine.onTouchUp(event.x, event.y)
         }
         return true
     }
