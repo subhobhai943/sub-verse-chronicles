@@ -15,7 +15,7 @@ Java_in_sub_unit_subverse_NativeEngine_init(JNIEnv* env, jobject /*thiz*/, jobje
 
 JNIEXPORT jstring JNICALL
 Java_in_sub_unit_subverse_NativeEngine_getVersion(JNIEnv* env, jobject /*thiz*/) {
-    std::string version = "SUB-verse Engine v1.1.0 (Production VN)";
+    std::string version = "SUB-verse Engine v1.2.0 (Production + Real Assets)";
     return env->NewStringUTF(version.c_str());
 }
 

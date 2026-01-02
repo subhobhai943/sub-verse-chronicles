@@ -7,6 +7,7 @@
 #include "story_manager.h"
 #include "input_manager.h"
 #include "texture.h"
+#include "image_loader.h"
 
 namespace subverse {
 
@@ -67,18 +68,52 @@ void Engine::onDrawFrame() {
 }
 
 void Engine::loadGameAssets() {
-    // Placeholder art for now (engine-ready). Replace with real PNG decode later.
-    bgTexture_->createSolid(512, 512, 20, 30, 60, 255);
-    charTexture_->createSolid(256, 512, 200, 150, 180, 255);
+    LOGI("Loading visual novel assets...");
+
+    // Load background PNG
+    auto bgData = assetMgr_->loadFile("images/backgrounds/bedroom.png");
+    if (!bgData.empty()) {
+        bool success = ImageLoader::loadPNGFromMemory(bgData.data(), bgData.size(), bgTexture_);
+        if (success) {
+            LOGI("Loaded bedroom.png background");
+        } else {
+            LOGE("Failed to decode bedroom.png, using fallback");
+            bgTexture_->createSolid(512, 512, 20, 30, 60, 255);
+        }
+    } else {
+        LOGW("bedroom.png not found, using placeholder");
+        bgTexture_->createSolid(512, 512, 20, 30, 60, 255);
+    }
+
+    // Load character sprite PNG
+    auto charData = assetMgr_->loadFile("images/characters/protagonist.png");
+    if (!charData.empty()) {
+        bool success = ImageLoader::loadPNGFromMemory(charData.data(), charData.size(), charTexture_);
+        if (success) {
+            LOGI("Loaded protagonist.png character");
+        } else {
+            LOGE("Failed to decode protagonist.png, using fallback");
+            charTexture_->createSolid(256, 512, 200, 150, 180, 255);
+        }
+    } else {
+        LOGW("protagonist.png not found, using placeholder");
+        charTexture_->createSolid(256, 512, 200, 150, 180, 255);
+    }
+
+    // Dialogue box (keep solid color for now - transparent dark panel)
     dialogueBoxTex_->createSolid(512, 128, 10, 10, 10, 220);
 
+    // Load story script
     std::string script = assetMgr_->loadText("story/chapter1.vns");
     if (script.empty()) {
         script = "@node start\nNarrator: Missing story/chapter1.vns\n";
+        LOGW("Story script not found, using fallback");
     }
 
     storyMgr_->loadScript(script);
     storyMgr_->start();
+    
+    LOGI("All assets loaded successfully!");
 }
 
 void Engine::advance() {
