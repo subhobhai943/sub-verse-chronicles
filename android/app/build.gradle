@@ -12,20 +12,19 @@ android {
         minSdk 26
         targetSdk 34
         versionCode 1
-        versionName "0.1.0"
+        versionName "1.0"
 
         ndkVersion "25.2.9519653"
 
         externalNativeBuild {
             cmake {
-                cppFlags "-std=c++17 -Wall -Wextra"
+                cppFlags "-std=c++17 -Wall"
             }
         }
     }
 
     externalNativeBuild {
         cmake {
-            // Use the C++ core engine CMake
             path file('../../engine/CMakeLists.txt')
             version '3.22.1'
         }
@@ -37,7 +36,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    
     buildFeatures {
         viewBinding false
     }
